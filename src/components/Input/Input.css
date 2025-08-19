@@ -1,0 +1,92 @@
+.input-wrapper {
+    margin-bottom: 1rem;
+}
+
+.input-checkbox-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.input-label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+}
+
+.input-asterisk {
+    color: red;
+}
+
+.input-description {
+    font-size: 0.875rem;
+    color: #666;
+    margin-bottom: 0.25rem;
+}
+
+.input-error {
+    font-size: 0.875rem;
+    color: red;
+    margin-top: 0.25rem;
+}
+
+.input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.input--disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Варианты */
+.input--filled {
+    background-color: #f5f5f5;
+}
+
+.input--unstyled {
+    border: none;
+    background: none;
+    padding: 0;
+}
+
+/* Радиусы */
+.input--radius-xs {
+    border-radius: 2px;
+}
+.input--radius-sm {
+    border-radius: 4px;
+}
+.input--radius-md {
+    border-radius: 8px;
+}
+.input--radius-lg {
+    border-radius: 16px;
+}
+.input--radius-xl {
+    border-radius: 32px;
+}
+
+/* Размеры */
+.input--size-xs {
+    padding: 0.25rem;
+    font-size: 0.75rem;
+}
+.input--size-sm {
+    padding: 0.375rem;
+    font-size: 0.875rem;
+}
+.input--size-md {
+    padding: 0.5rem;
+    font-size: 1rem;
+}
+.input--size-lg {
+    padding: 0.625rem;
+    font-size: 1.125rem;
+}
+.input--size-xl {
+    padding: 0.75rem;
+    font-size: 1.25rem;
+}

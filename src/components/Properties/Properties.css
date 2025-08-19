@@ -1,0 +1,32 @@
+.radius-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+.size-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+input[type="range"] {
+    width: 200px;
+}
+
+.radius-labels {
+    display: flex;
+    justify-content: space-between;
+    width: 200px;
+    font-size: 14px;
+    padding: 0 2px;
+}
+
+.size-labels {
+    display: flex;
+    justify-content: space-between;
+    width: 200px;
+    font-size: 14px;
+    padding: 0 2px;
+}
