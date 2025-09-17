@@ -1,4 +1,5 @@
-import { useState, useRef } from "react";
+import { IconAt } from "@tabler/icons-react";
+import { useRef, useState } from "react";
 import { Input, Properties } from "../../components";
 import "./Signup.css";
 
@@ -28,6 +29,7 @@ export const Signup = ({ onSubmit }: SignupProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    console.log("Input changed:", name, value);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -54,6 +56,7 @@ export const Signup = ({ onSubmit }: SignupProps) => {
             placeholder="Your nickname"
             value={formData.nickname}
             onChange={handleChange}
+            icon={<IconAt size="1rem" />}
           />
           <Input
             name="email"
@@ -65,7 +68,7 @@ export const Signup = ({ onSubmit }: SignupProps) => {
             withAsterisk
           />
           <div>
-            <label>Gender:</label>
+            <span>Gender:</span>
             <label>
               <input
                 type="radio"

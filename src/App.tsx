@@ -1,6 +1,5 @@
-import { Signin } from "./components";
-import { Signup } from "./components";
 import "./app.css";
+import { Signin, Signup } from "./components";
 
 export const App = () => {
   const handleSignin = (data: { email: string; password: string }) => {

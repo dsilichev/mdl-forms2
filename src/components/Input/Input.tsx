@@ -1,9 +1,10 @@
-import { Ref } from "react";
-import { InputProps } from "./Input.types";
+//import { Ref } from "react";
 import "./Input.css";
+import type * as InputTypes from "./Input.types";
 
 export const Input = (
   {
+    name,
     label,
     description,
     error,
@@ -13,18 +14,21 @@ export const Input = (
     disabled = false,
     withAsterisk = false,
     type = "text",
+    icon,
     ...props
-  }: InputProps,
-  ref?: Ref<HTMLInputElement>,
+  }: InputTypes.InputProps,
+  //ref?: Ref<HTMLInputElement>,
 ) => {
   const inputClasses = `input input--${variant} input--radius-${radius} input--size-${textSize} ${
     disabled ? "input--disabled" : ""
-  }`;
+  } ${icon ? "input--with-icon" : ""}`;
 
   return type === "checkbox" ? (
     <div className="input-checkbox-wrapper">
-      <label className="input-label">{label}</label>
-      <input className="input-checkbox" type={type}></input>
+      <label className="input-label" htmlFor={name}>
+        {label}
+      </label>
+      <input className="input-checkbox" type={type} id={name} />
     </div>
   ) : (
     <div className="input-wrapper">
@@ -35,12 +39,16 @@ export const Input = (
         </label>
       )}
       {description && <p className="input-description">{description}</p>}
-      <input
-        ref={ref}
-        className={inputClasses}
-        disabled={disabled}
-        {...props}
-      />
+      <div className="input-with-icon-wrapper">
+        {icon && <div className="input-icon">{icon}</div>}
+        <input
+          //ref={ref}
+          className={inputClasses}
+          name={name}
+          disabled={disabled}
+          {...props}
+        />
+      </div>
       {error && <p className="input-error">{error}</p>}
     </div>
   );

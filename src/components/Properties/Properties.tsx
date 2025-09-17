@@ -96,6 +96,7 @@ export const Properties = () => {
         </div>
       </div>
       <Input
+        name="disabled"
         label="Disabled"
         type="checkbox"
         onChange={(e) => {
@@ -106,6 +107,7 @@ export const Properties = () => {
         }}
       />
       <Input
+        name="withasterisk"
         label="With asterisk"
         type="checkbox"
         onChange={(e) => {

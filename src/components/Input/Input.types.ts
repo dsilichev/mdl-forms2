@@ -12,4 +12,5 @@ export interface InputProps
   textSize?: InputSize;
   disabled?: boolean;
   withAsterisk?: boolean;
+  icon?: React.ReactNode;
 }
