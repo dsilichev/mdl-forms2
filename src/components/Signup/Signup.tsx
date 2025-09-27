@@ -15,7 +15,15 @@ interface SignupProps {
 }
 
 export const Signup = ({ onSubmit }: SignupProps) => {
-  const [formData, setFormData] = useState({
+  // const [formData, setFormData] = useState({
+  //   name: "",
+  //   nickname: "",
+  //   email: "",
+  //   gender: "",
+  //   password: "",
+  //   confirmPassword: "",
+  // });
+  const formData = useRef({
     name: "",
     nickname: "",
     email: "",
@@ -24,38 +32,57 @@ export const Signup = ({ onSubmit }: SignupProps) => {
     confirmPassword: "",
   });
 
-  const currentInputRef = useRef(null);
+  const currentInputRef = useRef<HTMLFormElement>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleBlur = (e: React.FocusEvent<HTMLFormElement>) => {
+    const { name } = e.target;
+    //setFormData((prev) => ({ ...prev, [name]: "" }));
+    console.log("Input blurred:", name);
+  };
+
+  const handleFocus = (e: React.FocusEvent<HTMLFormElement>) => {
+    const { name } = e.target;
+    currentInputRef.current = e.target;
+    //setFormData((prev) => ({ ...prev, [name]: "" }));
+    console.log("Input focused:", name);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLFormElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    formData.current = { ...formData.current, [name]: value };
+    //setFormData((prev) => ({ ...prev, [name]: value }));
     console.log("Input changed:", name, value);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(formData);
+    onSubmit(formData.current);
   };
 
   return (
     <div className="form-container-wrap">
       <div className="form-container">
         <h1>Sign Up</h1>
-        <form onSubmit={handleSubmit}>
+        <form
+          onSubmit={handleSubmit}
+          onChange={handleChange}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+        >
           <Input
             name="name"
             label="Name"
             placeholder="Your name"
-            value={formData.name}
-            onChange={handleChange}
+            //value={formData.name}
+            //onChange={handleChange}
             withAsterisk
           />
           <Input
             name="nickname"
             label="Nickname"
             placeholder="Your nickname"
-            value={formData.nickname}
-            onChange={handleChange}
+            //value={formData.nickname}
+            //onChange={handleChange}
             icon={<IconAt size="1rem" />}
           />
           <Input
@@ -63,8 +90,8 @@ export const Signup = ({ onSubmit }: SignupProps) => {
             type="email"
             label="Email"
             placeholder="your@email.com"
-            value={formData.email}
-            onChange={handleChange}
+            //value={formData.email}
+            //onChange={handleChange}
             withAsterisk
           />
           <div>
@@ -74,8 +101,9 @@ export const Signup = ({ onSubmit }: SignupProps) => {
                 type="radio"
                 name="gender"
                 value="male"
+                readOnly
                 checked={formData.gender === "male"}
-                onChange={handleChange}
+                //onChange={handleChange}
               />{" "}
               Male
             </label>
@@ -84,8 +112,9 @@ export const Signup = ({ onSubmit }: SignupProps) => {
                 type="radio"
                 name="gender"
                 value="female"
+                readOnly
                 checked={formData.gender === "female"}
-                onChange={handleChange}
+                //onChange={handleChange}
               />{" "}
               Female
             </label>
@@ -95,8 +124,8 @@ export const Signup = ({ onSubmit }: SignupProps) => {
             type="password"
             label="Password"
             placeholder="Your password"
-            value={formData.password}
-            onChange={handleChange}
+            //value={formData.password}
+            //onChange={handleChange}
             withAsterisk
           />
           <Input
@@ -104,8 +133,8 @@ export const Signup = ({ onSubmit }: SignupProps) => {
             type="password"
             label="Confirm Password"
             placeholder="Repeat your password"
-            value={formData.confirmPassword}
-            onChange={handleChange}
+            //value={formData.confirmPassword}
+            //onChange={handleChange}
             withAsterisk
           />
           <button type="submit">Зарегистрироваться</button>
