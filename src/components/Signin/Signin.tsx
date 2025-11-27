@@ -9,10 +9,10 @@ export const Signin = ({ onSubmit }: SigninProps) => {
   const formRef = useRef<HTMLFormElement>(null);
   const signinData = useRef({ email: "", password: "" });
   const [isDisabled, setIsDisabled] = useState(true);
-  const { email, password } = signinData.current;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const { email, password } = signinData.current;
     onSubmit({ email, password });
     formRef.current?.reset();
   };
@@ -31,7 +31,7 @@ export const Signin = ({ onSubmit }: SigninProps) => {
   const handleReset = () => {
     signinData.current = { email: "", password: "" };
     formRef.current?.reset();
-    setIsDisabled(true);
+    setIsDisabled(false);
   };
 
   return (

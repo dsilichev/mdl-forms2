@@ -1,6 +1,7 @@
 import { IconAt } from "@tabler/icons-react";
 import { useRef, useState } from "react";
 import { Input, Properties } from "../../components";
+import type * as InputTypes from "../Input/Input.types";
 import "./Signup.css";
 
 interface SignupProps {
@@ -14,15 +15,20 @@ interface SignupProps {
   }) => void;
 }
 
+export interface FormProps {
+  [propName: string]: InputTypes.InputProps;
+}
+
+const FIELDS = [
+  "name",
+  "nickname",
+  "email",
+  "gender",
+  "password",
+  "confirmPassword",
+];
+
 export const Signup = ({ onSubmit }: SignupProps) => {
-  // const [formData, setFormData] = useState({
-  //   name: "",
-  //   nickname: "",
-  //   email: "",
-  //   gender: "",
-  //   password: "",
-  //   confirmPassword: "",
-  // });
   const formData = useRef({
     name: "",
     nickname: "",
@@ -32,19 +38,64 @@ export const Signup = ({ onSubmit }: SignupProps) => {
     confirmPassword: "",
   });
 
-  const currentInputRef = useRef<HTMLFormElement>(null);
+  // const genDefaultFormProps = (props: FormProps) => ({
+  //   placeholder: props.placeholder,
+  //   label: props.label,
+  //   description: "",
+  //   error: "",
+  //   variant: "default",
+  //   radius: "sm",
+  //   size: "md",
+  //   isDisabled: false,
+  //   withAsterisk: false,
+  // });
+
+  const [formProperties, setFormProperties] = useState<FormProps>({
+    default: {
+      placeholder: "Your placeholder",
+      label: "Your label  ",
+      description: "Your description",
+      error: "",
+      variant: "default",
+      radius: "sm",
+      textSize: "md",
+      disabled: false,
+      withAsterisk: false,
+    },
+  });
+
+  //const currentInputRef = useRef<HTMLFormElement>(null);
+  //const currentInputNameRef = useRef<keyof FormProps>("default");
+  const [currentInputName, setCurrentInputName] =
+    useState<keyof FormProps>("default");
 
   const handleBlur = (e: React.FocusEvent<HTMLFormElement>) => {
     const { name } = e.target;
     //setFormData((prev) => ({ ...prev, [name]: "" }));
-    console.log("Input blurred:", name);
+    //console.log("Input blurred:", e.target);
   };
 
   const handleFocus = (e: React.FocusEvent<HTMLFormElement>) => {
     const { name } = e.target;
-    currentInputRef.current = e.target;
+    //currentInputRef.current = e.target;
+    //currentInputNameRef.current = name;
+    setCurrentInputName(name);
     //setFormData((prev) => ({ ...prev, [name]: "" }));
-    console.log("Input focused:", name);
+    setFormProperties((prev) => ({
+      ...prev,
+      [name]: {
+        placeholder: `Your ${name}`,
+        label: `${name[0].toUpperCase() + name.slice(1)}`,
+        description: "Your description",
+        error: "",
+        variant: "default",
+        radius: "sm",
+        textSize: "md",
+        disabled: false,
+        withAsterisk: false,
+      },
+    }));
+    console.log("Input focused:", e.target);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLFormElement>) => {
@@ -103,7 +154,7 @@ export const Signup = ({ onSubmit }: SignupProps) => {
                 value="male"
                 readOnly
                 checked={formData.gender === "male"}
-                //onChange={handleChange}
+              //onChange={handleChange}
               />{" "}
               Male
             </label>
@@ -114,7 +165,7 @@ export const Signup = ({ onSubmit }: SignupProps) => {
                 value="female"
                 readOnly
                 checked={formData.gender === "female"}
-                //onChange={handleChange}
+              //onChange={handleChange}
               />{" "}
               Female
             </label>
@@ -142,7 +193,11 @@ export const Signup = ({ onSubmit }: SignupProps) => {
       </div>
       <div className="form-container">
         <h1>Properties</h1>
-        <Properties />
+        <Properties
+          formProperties={formProperties}
+          setFormProperties={setFormProperties}
+          currentInputName={currentInputName}
+        />
       </div>
     </div>
   );

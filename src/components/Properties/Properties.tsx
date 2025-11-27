@@ -1,20 +1,42 @@
 import { Input } from "../../components";
 import "./Properties.css";
+import { useState } from "react";
+import type * as InputTypes from "../Input/Input.types";
+import type { FormProps } from "../Signup/index";
 
-export const Properties = () => {
+export const Properties = ({
+  formProperties,
+  setFormProperties,
+  currentInputName,
+}: {
+  formProperties: FormProps;
+  setFormProperties: React.Dispatch<React.SetStateAction<FormProps>>;
+  currentInputName: keyof FormProps;
+}) => {
+  //console.log(formProperties.formProperties.placeholder);
+  console.log(formProperties[currentInputName].placeholder);
+
+  const [value, setValue] = useState("");
+
+  const handleChange = (e: React.ChangeEvent<HTMLFormElement>) => {
+    setValue(e.target.value);
+  };
+
   return (
-    <div>
+    <form onChange={handleChange}>
       <Input
         name="placeholder"
         label="Placeholder"
-        placeholder="Your placeholder"
-        value=""
-        onChange={() => {}}
+        placeholder={formProperties[currentInputName].placeholder}
+        value={value}
+        onChange={(e) => {
+          setValue(e.target.value);
+        }}
       />
       <Input
         name="label"
         label="Label"
-        placeholder="Your label"
+        placeholder={formProperties[currentInputName].label}
         value=""
         onChange={() => {}}
       />
@@ -120,6 +142,6 @@ export const Properties = () => {
           // }
         }}
       />
-    </div>
+    </form>
   );
 };

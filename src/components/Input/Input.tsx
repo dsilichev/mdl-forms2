@@ -46,6 +46,7 @@ export const Input = (
           className={inputClasses}
           name={name}
           disabled={disabled}
+          //placeholder={props.placeholder}
           {...props}
         />
       </div>
