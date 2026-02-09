@@ -22,7 +22,7 @@ export interface FormProps {
 // TODO: use this structure to generate Signup form
 const FIELDS = [
   { name: "name", type: "input" },
-  { name: "nickname", type: "input" },
+  { name: "nickname", type: "input", icon: <IconAt size="1rem" /> },
   { name: "email", type: "input" },
   { name: "gender", type: "select", options: ["Male", "Female", "Other"] },
   { name: "password", type: "password" },
@@ -80,8 +80,8 @@ export const Signup = ({ onSubmit }: SignupProps) => {
   const [currentInputName, setCurrentInputName] =
     useState<keyof FormProps>("default");
 
-  const handleBlur = (e: React.FocusEvent<HTMLFormElement>) => {
-    const { name } = e.target;
+  const handleBlur = (_e: React.FocusEvent<HTMLFormElement>) => {
+    // Logic for blur can be added here if needed
   };
 
   const handleFocus = (e: React.FocusEvent<HTMLFormElement>) => {
@@ -116,86 +116,17 @@ export const Signup = ({ onSubmit }: SignupProps) => {
             const props = formProperties[field.name];
             return (
               <Input
-                key={props.name}
-                name={props.name}
-                label={`${props.name[0].toUpperCase() + props.name.slice(1)}`}
+                key={field.name}
+                name={field.name}
+                label={props.label || `${field.name[0].toUpperCase() + field.name.slice(1)}`}
                 placeholder={props.placeholder}
                 type={field.type}
                 options={field?.options || null}
-                //value={formData.name}
-                //onChange={handleChange}
+                icon={field.icon}
                 withAsterisk
               />
             );
           })}
-          {/*<Input
-            name="name"
-            label="Name"
-            placeholder="Your name"
-            //value={formData.name}
-            //onChange={handleChange}
-            withAsterisk
-          />
-          <Input
-            name="nickname"
-            label="Nickname"
-            placeholder="Your nickname"
-            //value={formData.nickname}
-            //onChange={handleChange}
-            icon={<IconAt size="1rem" />}
-          />
-          <Input
-            name="email"
-            type="email"
-            label="Email"
-            placeholder="your@email.com"
-            //value={formData.email}
-            //onChange={handleChange}
-            withAsterisk
-          />
-          <div>
-            <span>Gender:</span>
-            <label>
-              <input
-                type="radio"
-                name="gender"
-                value="male"
-                readOnly
-                checked={formData.gender === "male"}
-                //onChange={handleChange}
-              />{" "}
-              Male
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="gender"
-                value="female"
-                readOnly
-                checked={formData.gender === "female"}
-                //onChange={handleChange}
-              />{" "}
-              Female
-            </label>
-          </div>
-          <Input
-            name="password"
-            type="password"
-            label="Password"
-            placeholder="Your password"
-            //value={formData.password}
-            //onChange={handleChange}
-            withAsterisk
-          />
-          <Input
-            name="confirmPassword"
-            type="password"
-            label="Confirm Password"
-            placeholder="Repeat your password"
-            //value={formData.confirmPassword}
-            //onChange={handleChange}
-            withAsterisk
-          />*/}
           <button type="submit">Зарегистрироваться</button>
         </form>
       </div>

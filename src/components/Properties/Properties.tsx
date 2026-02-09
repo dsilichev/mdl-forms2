@@ -1,6 +1,6 @@
 import { Input } from "../../components";
 import "./Properties.css";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type * as InputTypes from "../Input/Input.types";
 import type { FormProps } from "../Signup";
 
@@ -15,15 +15,15 @@ export const Properties = ({
 }) => {
   //console.log(formProperties.formProperties.placeholder);
   console.log(formProperties[currentInputName]);
-
+  const formRef = useRef<HTMLFormElement>(null);
   const [value, setValue] = useState("");
-  const [properties, setProperties] = useState<InputTypes.InputProps>();
+  //const [properties, setProperties] = useState<InputTypes.InputProps>();
 
   const handleChange = (e: React.ChangeEvent<HTMLFormElement>) => {
-    setProperties((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
+    // setProperties((prev) => ({
+    //   ...prev,
+    //   [e.target.name]: e.target.value,
+    // }));
     console.log(e.target.name);
     setFormProperties((prev) => ({
       ...prev,
@@ -34,8 +34,14 @@ export const Properties = ({
     }));
   };
 
+  //TODO: reset form after change of currentInpuName
+  useEffect(() => {
+    console.log('effect', currentInputName)
+    formRef.current?.reset();
+  }, [currentInputName]);
+
   return (
-    <form onChange={handleChange}>
+    <form ref={formRef} onChange={handleChange}>
       <Input
         name="placeholder"
         label="Placeholder"
@@ -49,22 +55,22 @@ export const Properties = ({
         name="label"
         label="Label"
         placeholder={formProperties[currentInputName].label}
-        value={value}
-        onChange={() => {}}
+        //value={value}
+        onChange={() => { }}
       />
       <Input
         name="description"
         label="Description"
         placeholder="Your description"
         value=""
-        onChange={() => {}}
+        onChange={() => { }}
       />
       <Input
         name="error"
         label="Error"
         placeholder="Your error"
         value=""
-        onChange={() => {}}
+        onChange={() => { }}
       />
       <div>
         <label htmlFor="select">Variant:</label>
