@@ -2,7 +2,7 @@ import { Input } from "../../components";
 import "./Properties.css";
 import { useState } from "react";
 import type * as InputTypes from "../Input/Input.types";
-import type { FormProps } from "../Signup/index";
+import type { FormProps } from "../Signup";
 
 export const Properties = ({
   formProperties,
@@ -14,12 +14,24 @@ export const Properties = ({
   currentInputName: keyof FormProps;
 }) => {
   //console.log(formProperties.formProperties.placeholder);
-  console.log(formProperties[currentInputName].placeholder);
+  console.log(formProperties[currentInputName]);
 
   const [value, setValue] = useState("");
+  const [properties, setProperties] = useState<InputTypes.InputProps>();
 
   const handleChange = (e: React.ChangeEvent<HTMLFormElement>) => {
-    setValue(e.target.value);
+    setProperties((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+    console.log(e.target.name);
+    setFormProperties((prev) => ({
+      ...prev,
+      [currentInputName]: {
+        ...prev[currentInputName],
+        [e.target.name]: e.target.value,
+      },
+    }));
   };
 
   return (
@@ -28,16 +40,16 @@ export const Properties = ({
         name="placeholder"
         label="Placeholder"
         placeholder={formProperties[currentInputName].placeholder}
-        value={value}
+        //value={properties?.placeholder || ""}
         onChange={(e) => {
-          setValue(e.target.value);
+          //setValue(e.target.value);
         }}
       />
       <Input
         name="label"
         label="Label"
         placeholder={formProperties[currentInputName].label}
-        value=""
+        value={value}
         onChange={() => {}}
       />
       <Input

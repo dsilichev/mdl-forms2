@@ -14,6 +14,7 @@ export const Input = (
     disabled = false,
     withAsterisk = false,
     type = "text",
+    options = null,
     icon,
     ...props
   }: InputTypes.InputProps,

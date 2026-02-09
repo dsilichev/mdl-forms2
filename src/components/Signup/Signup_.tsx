@@ -20,14 +20,7 @@ export interface FormProps {
 }
 
 // TODO: use this structure to generate Signup form
-const FIELDS = [
-  { name: "name", type: "input" },
-  { name: "nickname", type: "input" },
-  { name: "email", type: "input" },
-  { name: "gender", type: "select", options: ["Male", "Female", "Other"] },
-  { name: "password", type: "password" },
-  { name: "confirmPassword", type: "password" },
-];
+const FIELDS = ["name", "nickname", "email", "gender", "password", "confirmPassword"];
 
 export const Signup = ({ onSubmit }: SignupProps) => {
   const formData = useRef({
@@ -39,27 +32,17 @@ export const Signup = ({ onSubmit }: SignupProps) => {
     confirmPassword: "",
   });
 
-  // fill formProperties
-  let initialFormProperties: FormProps = {};
-  for (const field of FIELDS) {
-    initialFormProperties = {
-      ...initialFormProperties,
-      [field.name]: {
-        name: field.name,
-        placeholder: `Your ${field.name}`,
-        label: `${field.name[0].toUpperCase() + field.name.slice(1)}`,
-        description: "Your description",
-        error: "",
-        variant: "default",
-        radius: "sm",
-        textSize: "md",
-        disabled: false,
-        withAsterisk: false,
-        type: field.type,
-        options: field.options || null,
-      },
-    };
-  }
+  // const genDefaultFormProps = (props: FormProps) => ({
+  //   placeholder: props.placeholder,
+  //   label: props.label,
+  //   description: "",
+  //   error: "",
+  //   variant: "default",
+  //   radius: "sm",
+  //   size: "md",
+  //   isDisabled: false,
+  //   withAsterisk: false,
+  // });
 
   const [formProperties, setFormProperties] = useState<FormProps>({
     default: {
@@ -73,20 +56,38 @@ export const Signup = ({ onSubmit }: SignupProps) => {
       disabled: false,
       withAsterisk: false,
     },
-    ...initialFormProperties,
   });
-  console.log("Form properties:", formProperties);
 
-  const [currentInputName, setCurrentInputName] =
-    useState<keyof FormProps>("default");
+  //const currentInputRef = useRef<HTMLFormElement>(null);
+  //const currentInputNameRef = useRef<keyof FormProps>("default");
+  const [currentInputName, setCurrentInputName] = useState<keyof FormProps>("default");
 
   const handleBlur = (e: React.FocusEvent<HTMLFormElement>) => {
     const { name } = e.target;
+    //setFormData((prev) => ({ ...prev, [name]: "" }));
+    //console.log("Input blurred:", e.target);
   };
 
   const handleFocus = (e: React.FocusEvent<HTMLFormElement>) => {
     const { name } = e.target;
+    //currentInputRef.current = e.target;
+    //currentInputNameRef.current = name;
     setCurrentInputName(name);
+    //setFormData((prev) => ({ ...prev, [name]: "" }));
+    setFormProperties((prev) => ({
+      ...prev,
+      [name]: {
+        placeholder: `Your ${name}`,
+        label: `${name[0].toUpperCase() + name.slice(1)}`,
+        description: "Your description",
+        error: "",
+        variant: "default",
+        radius: "sm",
+        textSize: "md",
+        disabled: false,
+        withAsterisk: false,
+      },
+    }));
     console.log("Input focused:", e.target);
   };
 
@@ -112,23 +113,7 @@ export const Signup = ({ onSubmit }: SignupProps) => {
           onFocus={handleFocus}
           onBlur={handleBlur}
         >
-          {FIELDS.map((field) => {
-            const props = formProperties[field.name];
-            return (
-              <Input
-                key={props.name}
-                name={props.name}
-                label={`${props.name[0].toUpperCase() + props.name.slice(1)}`}
-                placeholder={props.placeholder}
-                type={field.type}
-                options={field?.options || null}
-                //value={formData.name}
-                //onChange={handleChange}
-                withAsterisk
-              />
-            );
-          })}
-          {/*<Input
+          <Input
             name="name"
             label="Name"
             placeholder="Your name"
@@ -162,7 +147,7 @@ export const Signup = ({ onSubmit }: SignupProps) => {
                 value="male"
                 readOnly
                 checked={formData.gender === "male"}
-                //onChange={handleChange}
+              //onChange={handleChange}
               />{" "}
               Male
             </label>
@@ -173,7 +158,7 @@ export const Signup = ({ onSubmit }: SignupProps) => {
                 value="female"
                 readOnly
                 checked={formData.gender === "female"}
-                //onChange={handleChange}
+              //onChange={handleChange}
               />{" "}
               Female
             </label>
@@ -195,7 +180,7 @@ export const Signup = ({ onSubmit }: SignupProps) => {
             //value={formData.confirmPassword}
             //onChange={handleChange}
             withAsterisk
-          />*/}
+          />
           <button type="submit">Зарегистрироваться</button>
         </form>
       </div>

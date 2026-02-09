@@ -13,4 +13,6 @@ export interface InputProps
   disabled?: boolean;
   withAsterisk?: boolean;
   icon?: React.ReactNode;
+  type?: string;
+  options?: string[] | null;
 }
