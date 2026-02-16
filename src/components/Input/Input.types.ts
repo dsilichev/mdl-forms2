@@ -1,6 +1,6 @@
 export type InputVariant = "default" | "filled" | "unstyled";
-export type InputRadius = "xs" | "sm" | "md" | "lg" | "xl";
-export type InputSize = "xs" | "sm" | "md" | "lg" | "xl";
+export type InputRadius = "sm" | "md" | "lg";
+export type InputSize = "sm" | "md" | "lg";
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {

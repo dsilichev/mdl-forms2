@@ -13,28 +13,22 @@ export const Properties = ({
   setFormProperties: React.Dispatch<React.SetStateAction<FormProps>>;
   currentInputName: keyof FormProps;
 }) => {
-  //console.log(formProperties.formProperties.placeholder);
   console.log(formProperties[currentInputName]);
   const formRef = useRef<HTMLFormElement>(null);
-  const [value, setValue] = useState("");
-  //const [properties, setProperties] = useState<InputTypes.InputProps>();
+
 
   const handleChange = (e: React.ChangeEvent<HTMLFormElement>) => {
-    // setProperties((prev) => ({
-    //   ...prev,
-    //   [e.target.name]: e.target.value,
-    // }));
-    console.log(e.target.name);
+    console.log(e.target.type);
     setFormProperties((prev) => ({
       ...prev,
       [currentInputName]: {
         ...prev[currentInputName],
-        [e.target.name]: e.target.value,
+        [e.target.name]: e.target.type === "checkbox" ? e.target.checked : e.target.value,
       },
     }));
   };
 
-  //TODO: reset form after change of currentInpuName
+  //reset form after change of currentInpuName
   useEffect(() => {
     console.log('effect', currentInputName)
     formRef.current?.reset();
@@ -45,44 +39,34 @@ export const Properties = ({
       <Input
         name="placeholder"
         label="Placeholder"
-        placeholder={formProperties[currentInputName].placeholder}
-        //value={properties?.placeholder || ""}
-        onChange={(e) => {
-          //setValue(e.target.value);
-        }}
+        placeholder={formProperties[currentInputName]?.placeholder || ""}
+        onChange={() => { }}
       />
       <Input
         name="label"
         label="Label"
-        placeholder={formProperties[currentInputName].label}
-        //value={value}
+        placeholder={formProperties[currentInputName]?.label || ""}
         onChange={() => { }}
       />
       <Input
         name="description"
         label="Description"
-        placeholder="Your description"
-        value=""
+        placeholder={formProperties[currentInputName]?.description || ""}
         onChange={() => { }}
       />
       <Input
         name="error"
         label="Error"
-        placeholder="Your error"
-        value=""
+        placeholder={formProperties[currentInputName]?.error || ""}
         onChange={() => { }}
       />
-      <div>
+      <div className="variant-wrapper">
         <label htmlFor="select">Variant:</label>
         <select
-          name="Variant"
+          name="variant"
           id="select"
-          value=""
-          onChange={(e) => {
-            // if (ref.current) {
-            //   updateCurrentTextField(e.target.value, ref.current, "variant");
-            // }
-          }}
+          value={formProperties[currentInputName]?.variant || "default"}
+          onChange={() => { }}
         >
           <option value="default">Default</option>
           <option value="filled">Filled</option>
@@ -90,21 +74,16 @@ export const Properties = ({
         </select>
       </div>
       <div className="radius-wrapper">
-        <label>Radius:</label>
+        <label htmlFor="radius">Radius:</label>
         <input
           type="range"
-          name="Radius"
+          name="radius"
           id="radius"
-          list="radius-values"
           min="0"
           max="200"
           step="100"
-          value=""
-          onChange={(e) => {
-            // if (ref.current) {
-            //   updateCurrentTextField(e.target.value, ref.current, "radius");
-            // }
-          }}
+          value={formProperties[currentInputName]?.radius || "0"}
+          onChange={() => { }}
         />
         <div className="radius-labels">
           <span>sm</span>
@@ -113,21 +92,16 @@ export const Properties = ({
         </div>
       </div>
       <div className="size-wrapper">
-        <label>Size:</label>
+        <label htmlFor="size">Size:</label>
         <input
           type="range"
-          name="Size"
+          name="textSize"
           id="size"
-          list="size-values"
           min="0"
           max="200"
           step="100"
-          value=""
-          onChange={(e) => {
-            // if (ref.current) {
-            //   updateCurrentTextField(+e.target.value, ref.current, "size");
-            // }
-          }}
+          value={formProperties[currentInputName]?.textSize || "100"}
+          onChange={() => { }}
         />
         <div className="size-labels">
           <span>sm</span>
@@ -139,26 +113,15 @@ export const Properties = ({
         name="disabled"
         label="Disabled"
         type="checkbox"
-        onChange={(e) => {
-          // setDisabled(e.target.checked);
-          // if (ref.current) {
-          //   updateCurrentTextField(e.target.checked, ref.current, "disabled");
-          // }
-        }}
+        checked={formProperties[currentInputName]?.disabled || false}
+        onChange={() => { }}
       />
       <Input
-        name="withasterisk"
+        name="withAsterisk"
         label="With asterisk"
         type="checkbox"
-        onChange={(e) => {
-          // if (ref.current) {
-          //   updateCurrentTextField(
-          //     e.target.checked,
-          //     ref.current,
-          //     "withasterisk",
-          //   );
-          // }
-        }}
+        checked={formProperties[currentInputName]?.withAsterisk || false}
+        onChange={() => { }}
       />
     </form>
   );

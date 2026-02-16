@@ -48,7 +48,7 @@ export const Signup = ({ onSubmit }: SignupProps) => {
         name: field.name,
         placeholder: `Your ${field.name}`,
         label: `${field.name[0].toUpperCase() + field.name.slice(1)}`,
-        description: "Your description",
+        description: "",
         error: "",
         variant: "default",
         radius: "sm",
@@ -120,10 +120,16 @@ export const Signup = ({ onSubmit }: SignupProps) => {
                 name={field.name}
                 label={props.label || `${field.name[0].toUpperCase() + field.name.slice(1)}`}
                 placeholder={props.placeholder}
+                description={props.description}
+                error={props.error}
+                variant={props.variant}
+                radius={props.radius}
+                textSize={props.textSize}
+                disabled={props.disabled}
+                withAsterisk={props.withAsterisk}
                 type={field.type}
                 options={field?.options || null}
                 icon={field.icon}
-                withAsterisk
               />
             );
           })}

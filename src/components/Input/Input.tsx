@@ -20,16 +20,28 @@ export const Input = (
   }: InputTypes.InputProps,
   //ref?: Ref<HTMLInputElement>,
 ) => {
-  const inputClasses = `input input--${variant} input--radius-${radius} input--size-${textSize} ${
-    disabled ? "input--disabled" : ""
-  } ${icon ? "input--with-icon" : ""}`;
+  const Sizes: Record<string, string> = {
+    "0": "sm",
+    "100": "md",
+    "200": "lg",
+  };
+
+  const inputClasses = `input input--${variant} input--radius-${Sizes[radius]} input--size-${Sizes[textSize]} ${disabled ? "input--disabled" : ""
+    } ${icon ? "input--with-icon" : ""}`;
 
   return type === "checkbox" ? (
     <div className="input-checkbox-wrapper">
       <label className="input-label" htmlFor={name}>
         {label}
       </label>
-      <input className="input-checkbox" type={type} id={name} />
+      <input
+        className="input-checkbox"
+        type={type}
+        id={name}
+        name={name}
+        disabled={disabled}
+        {...props}
+      />
     </div>
   ) : (
     <div className="input-wrapper">
