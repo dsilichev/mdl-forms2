@@ -24,7 +24,7 @@ const FIELDS = [
   { name: "name", type: "input" },
   { name: "nickname", type: "input", icon: <IconAt size="1rem" /> },
   { name: "email", type: "input" },
-  { name: "gender", type: "select", options: ["Male", "Female", "Other"] },
+  { name: "gender", type: "radio", options: ["Male", "Female", "Other"] },
   { name: "password", type: "password" },
   { name: "confirmPassword", type: "password" },
 ];

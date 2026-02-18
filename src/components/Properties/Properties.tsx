@@ -1,7 +1,6 @@
 import { Input } from "../../components";
 import "./Properties.css";
-import { useEffect, useRef, useState } from "react";
-import type * as InputTypes from "../Input/Input.types";
+import { useEffect, useRef } from "react";
 import type { FormProps } from "../Signup";
 
 export const Properties = ({

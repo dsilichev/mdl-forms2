@@ -43,10 +43,36 @@ export const Input = (
         {...props}
       />
     </div>
+  ) : type === "radio" ? (
+    <div className="input-radio-group-wrapper">
+      {label && (
+        <label className="input-label">
+          {label}
+          {withAsterisk && <span className="input-asterisk"> *</span>}
+        </label>
+      )}
+      {description && <p className="input-description">{description}</p>}
+      <div className="input-radio-options">
+        {options?.map((option) => (
+          <div key={option} className="input-radio-option">
+            <input
+              type="radio"
+              id={`${name}-${option}`}
+              name={name}
+              value={option}
+              disabled={disabled}
+              {...props}
+            />
+            <label htmlFor={`${name}-${option}`}>{option}</label>
+          </div>
+        ))}
+      </div>
+      {error && <p className="input-error">{error}</p>}
+    </div>
   ) : (
     <div className="input-wrapper">
       {label && (
-        <label className="input-label">
+        <label className="input-label" htmlFor={name}>
           {label}
           {withAsterisk && <span className="input-asterisk"> *</span>}
         </label>
@@ -56,6 +82,7 @@ export const Input = (
         {icon && <div className="input-icon">{icon}</div>}
         <input
           //ref={ref}
+          id={name}
           className={inputClasses}
           name={name}
           disabled={disabled}
