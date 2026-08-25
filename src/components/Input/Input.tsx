@@ -1,32 +1,23 @@
-//import { Ref } from "react";
 import "./Input.css";
 import type * as InputTypes from "./Input.types";
 
-export const Input = (
-  {
-    name,
-    label,
-    description,
-    error,
-    variant = "default",
-    radius = "sm",
-    textSize = "md",
-    disabled = false,
-    withAsterisk = false,
-    type = "text",
-    options = null,
-    icon,
-    ...props
-  }: InputTypes.InputProps,
-  //ref?: Ref<HTMLInputElement>,
-) => {
-  const Sizes: Record<string, string> = {
-    "0": "sm",
-    "100": "md",
-    "200": "lg",
-  };
-
-  const inputClasses = `input input--${variant} input--radius-${Sizes[radius]} input--size-${Sizes[textSize]} ${
+export const Input = ({
+  name,
+  label,
+  description,
+  error,
+  variant = "default",
+  radius = "sm",
+  textSize = "md",
+  disabled = false,
+  withAsterisk = false,
+  type = "text",
+  options = null,
+  icon,
+  ref,
+  ...props
+}: InputTypes.InputProps) => {
+  const inputClasses = `input input--${variant} input--radius-${radius} input--size-${textSize} ${
     disabled ? "input--disabled" : ""
   } ${icon ? "input--with-icon" : ""}`;
 
@@ -34,8 +25,10 @@ export const Input = (
     <div className="input-checkbox-wrapper">
       <label className="input-label" htmlFor={name}>
         {label}
+        {withAsterisk && <span className="input-asterisk"> *</span>}
       </label>
       <input
+        ref={ref}
         className="input-checkbox"
         type={type}
         id={name}
@@ -82,12 +75,12 @@ export const Input = (
       <div className="input-with-icon-wrapper">
         {icon && <div className="input-icon">{icon}</div>}
         <input
-          //ref={ref}
+          ref={ref}
+          type={type}
           id={name}
           className={inputClasses}
           name={name}
           disabled={disabled}
-          //placeholder={props.placeholder}
           {...props}
         />
       </div>

@@ -19,11 +19,17 @@ export interface FormProps {
   [propName: string]: InputTypes.InputProps;
 }
 
-// TODO: use this structure to generate Signup form
-const FIELDS = [
-  { name: "name", type: "input" },
-  { name: "nickname", type: "input", icon: <IconAt size="1rem" /> },
-  { name: "email", type: "input" },
+interface FieldConfig {
+  name: string;
+  type: InputTypes.InputType;
+  icon?: React.ReactNode;
+  options?: string[];
+}
+
+const FIELDS: FieldConfig[] = [
+  { name: "name", type: "text" },
+  { name: "nickname", type: "text", icon: <IconAt size="1rem" /> },
+  { name: "email", type: "email" },
   { name: "gender", type: "radio", options: ["Male", "Female", "Other"] },
   { name: "password", type: "password" },
   { name: "confirmPassword", type: "password" },

@@ -1,7 +1,31 @@
 import { Input } from "../../components";
 import "./Properties.css";
-import { useEffect, useRef } from "react";
+import type * as InputTypes from "../Input/Input.types";
 import type { FormProps } from "../Signup";
+
+const RADIUS_BY_RANGE: Record<string, InputTypes.InputRadius> = {
+  "0": "sm",
+  "100": "md",
+  "200": "lg",
+};
+
+const RANGE_BY_RADIUS: Record<InputTypes.InputRadius, string> = {
+  sm: "0",
+  md: "100",
+  lg: "200",
+};
+
+const SIZE_BY_RANGE: Record<string, InputTypes.InputSize> = {
+  "0": "sm",
+  "100": "md",
+  "200": "lg",
+};
+
+const RANGE_BY_SIZE: Record<InputTypes.InputSize, string> = {
+  sm: "0",
+  md: "100",
+  lg: "200",
+};
 
 export const Properties = ({
   formProperties,
@@ -12,57 +36,58 @@ export const Properties = ({
   setFormProperties: React.Dispatch<React.SetStateAction<FormProps>>;
   currentInputName: keyof FormProps;
 }) => {
-  const formRef = useRef<HTMLFormElement>(null);
+  const current = formProperties[currentInputName];
 
-
-  const handleChange = (e: React.ChangeEvent<HTMLFormElement>) => {
+  const setProp = (name: string, value: string | boolean) => {
     setFormProperties((prev) => ({
       ...prev,
       [currentInputName]: {
         ...prev[currentInputName],
-        [e.target.name]: e.target.type === "checkbox" ? e.target.checked : e.target.value,
+        [name]: value,
       },
     }));
   };
 
-  //reset form after change of currentInpuName
-  useEffect(() => {
-    formRef.current?.reset();
-  }, [currentInputName]);
-
   return (
-    <form ref={formRef} onChange={handleChange}>
+    <form>
+      <p className="properties-target">
+        Editing: <strong>{String(currentInputName)}</strong>
+      </p>
       <Input
         name="placeholder"
         label="Placeholder"
-        placeholder={formProperties[currentInputName]?.placeholder || ""}
-        onChange={() => { }}
+        placeholder="Your placeholder"
+        value={current?.placeholder ?? ""}
+        onChange={(e) => setProp("placeholder", e.target.value)}
       />
       <Input
         name="label"
         label="Label"
-        placeholder={formProperties[currentInputName]?.label || ""}
-        onChange={() => { }}
+        placeholder="Your label"
+        value={current?.label ?? ""}
+        onChange={(e) => setProp("label", e.target.value)}
       />
       <Input
         name="description"
         label="Description"
-        placeholder={formProperties[currentInputName]?.description || ""}
-        onChange={() => { }}
+        placeholder="Your description"
+        value={current?.description ?? ""}
+        onChange={(e) => setProp("description", e.target.value)}
       />
       <Input
         name="error"
         label="Error"
-        placeholder={formProperties[currentInputName]?.error || ""}
-        onChange={() => { }}
+        placeholder="Your error message"
+        value={current?.error ?? ""}
+        onChange={(e) => setProp("error", e.target.value)}
       />
       <div className="variant-wrapper">
-        <label htmlFor="select">Variant:</label>
+        <label htmlFor="variant">Variant:</label>
         <select
           name="variant"
-          id="select"
-          value={formProperties[currentInputName]?.variant || "default"}
-          onChange={() => { }}
+          id="variant"
+          value={current?.variant ?? "default"}
+          onChange={(e) => setProp("variant", e.target.value)}
         >
           <option value="default">Default</option>
           <option value="filled">Filled</option>
@@ -78,8 +103,8 @@ export const Properties = ({
           min="0"
           max="200"
           step="100"
-          value={formProperties[currentInputName]?.radius || "0"}
-          onChange={() => { }}
+          value={RANGE_BY_RADIUS[current?.radius ?? "sm"]}
+          onChange={(e) => setProp("radius", RADIUS_BY_RANGE[e.target.value])}
         />
         <div className="radius-labels">
           <span>sm</span>
@@ -96,8 +121,8 @@ export const Properties = ({
           min="0"
           max="200"
           step="100"
-          value={formProperties[currentInputName]?.textSize || "100"}
-          onChange={() => { }}
+          value={RANGE_BY_SIZE[current?.textSize ?? "md"]}
+          onChange={(e) => setProp("textSize", SIZE_BY_RANGE[e.target.value])}
         />
         <div className="size-labels">
           <span>sm</span>
@@ -109,15 +134,15 @@ export const Properties = ({
         name="disabled"
         label="Disabled"
         type="checkbox"
-        checked={formProperties[currentInputName]?.disabled || false}
-        onChange={() => { }}
+        checked={current?.disabled ?? false}
+        onChange={(e) => setProp("disabled", e.target.checked)}
       />
       <Input
         name="withAsterisk"
         label="With asterisk"
         type="checkbox"
-        checked={formProperties[currentInputName]?.withAsterisk || false}
-        onChange={() => { }}
+        checked={current?.withAsterisk ?? false}
+        onChange={(e) => setProp("withAsterisk", e.target.checked)}
       />
     </form>
   );

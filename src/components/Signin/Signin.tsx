@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { Input } from "..";
 import "./Signin.css";
 
 interface SigninProps {
@@ -15,23 +16,13 @@ export const Signin = ({ onSubmit }: SigninProps) => {
     const { email, password } = signinData.current;
     onSubmit({ email, password });
     formRef.current?.reset();
+    setIsDisabled(true);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLFormElement>) => {
     const { name, value } = e.target;
     signinData.current = { ...signinData.current, [name]: value };
-
-    if (signinData.current.email && signinData.current.password) {
-      setIsDisabled(false);
-    } else {
-      setIsDisabled(true);
-    }
-  };
-
-  const handleReset = () => {
-    signinData.current = { email: "", password: "" };
-    formRef.current?.reset();
-    setIsDisabled(false);
+    setIsDisabled(!(signinData.current.email && signinData.current.password));
   };
 
   return (
@@ -40,19 +31,20 @@ export const Signin = ({ onSubmit }: SigninProps) => {
       ref={formRef}
       onSubmit={handleSubmit}
       onChange={handleChange}
-      onReset={handleReset}
     >
-      <input
-        className="input input--default input--radius-sm input--size-md "
+      <Input
         type="email"
         name="email"
+        label="Email"
         placeholder="Your email"
+        withAsterisk
       />
-      <input
-        className="input input--default input--radius-sm input--size-md "
+      <Input
         type="password"
         name="password"
+        label="Password"
         placeholder="Your password"
+        withAsterisk
       />
       <button type="submit" disabled={isDisabled}>
         Войти
