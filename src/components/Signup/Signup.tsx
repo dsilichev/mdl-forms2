@@ -2,17 +2,15 @@ import { IconAt } from "@tabler/icons-react";
 import { useRef, useState } from "react";
 import { Input, Properties } from "..";
 import type * as InputTypes from "../Input/Input.types";
+import {
+  type SignupData,
+  validateSignup,
+  validateSignupField,
+} from "../../utils/validation";
 import "./Signup.css";
 
 interface SignupProps {
-  onSubmit: (data: {
-    name: string;
-    nickname: string;
-    email: string;
-    gender: string;
-    password: string;
-    confirmPassword: string;
-  }) => void;
+  onSubmit: (data: SignupData) => void;
 }
 
 export interface FormProps {
@@ -57,7 +55,7 @@ const initialFormProperties: FormProps = FIELDS.reduce(
 );
 
 export const Signup = ({ onSubmit }: SignupProps) => {
-  const formData = useRef({
+  const formData = useRef<SignupData>({
     name: "",
     nickname: "",
     email: "",
@@ -69,7 +67,7 @@ export const Signup = ({ onSubmit }: SignupProps) => {
   const [formProperties, setFormProperties] = useState<FormProps>({
     default: {
       placeholder: "Your placeholder",
-      label: "Your label  ",
+      label: "Your label",
       description: "Your description",
       error: "",
       variant: "default",
@@ -84,18 +82,44 @@ export const Signup = ({ onSubmit }: SignupProps) => {
   const [currentInputName, setCurrentInputName] =
     useState<keyof FormProps>("default");
 
+  const setFieldError = (name: string, message: string) => {
+    setFormProperties((prev) => ({
+      ...prev,
+      [name]: { ...prev[name], error: message },
+    }));
+  };
+
   const handleFocus = (e: React.FocusEvent<HTMLFormElement>) => {
     const { name } = e.target;
+    if (!name || !(name in formProperties)) return;
     setCurrentInputName(name);
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLFormElement>) => {
+    const { name } = e.target;
+    if (!(name in formData.current)) return;
+    setFieldError(
+      name,
+      validateSignupField(name as keyof SignupData, formData.current),
+    );
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLFormElement>) => {
     const { name, value } = e.target;
     formData.current = { ...formData.current, [name]: value };
+    if (formProperties[name]?.error) {
+      setFieldError(name, "");
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const errors = validateSignup(formData.current);
+    for (const [name, message] of Object.entries(errors)) {
+      if (message) setFieldError(name, message);
+    }
+    const hasErrors = Object.values(errors).some(Boolean);
+    if (hasErrors) return;
     onSubmit(formData.current);
   };
 
@@ -107,6 +131,7 @@ export const Signup = ({ onSubmit }: SignupProps) => {
           onSubmit={handleSubmit}
           onChange={handleChange}
           onFocus={handleFocus}
+          onBlur={handleBlur}
         >
           {FIELDS.map((field) => {
             const props = formProperties[field.name];
