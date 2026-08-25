@@ -26,8 +26,9 @@ export const Input = (
     "200": "lg",
   };
 
-  const inputClasses = `input input--${variant} input--radius-${Sizes[radius]} input--size-${Sizes[textSize]} ${disabled ? "input--disabled" : ""
-    } ${icon ? "input--with-icon" : ""}`;
+  const inputClasses = `input input--${variant} input--radius-${Sizes[radius]} input--size-${Sizes[textSize]} ${
+    disabled ? "input--disabled" : ""
+  } ${icon ? "input--with-icon" : ""}`;
 
   return type === "checkbox" ? (
     <div className="input-checkbox-wrapper">
@@ -44,12 +45,12 @@ export const Input = (
       />
     </div>
   ) : type === "radio" ? (
-    <div className="input-radio-group-wrapper">
+    <fieldset className="input-radio-group-wrapper">
       {label && (
-        <label className="input-label">
+        <legend className="input-label">
           {label}
           {withAsterisk && <span className="input-asterisk"> *</span>}
-        </label>
+        </legend>
       )}
       {description && <p className="input-description">{description}</p>}
       <div className="input-radio-options">
@@ -68,7 +69,7 @@ export const Input = (
         ))}
       </div>
       {error && <p className="input-error">{error}</p>}
-    </div>
+    </fieldset>
   ) : (
     <div className="input-wrapper">
       {label && (
