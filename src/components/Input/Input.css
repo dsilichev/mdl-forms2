@@ -47,6 +47,21 @@
     padding: 0.5rem;
     border: 1px solid #ddd;
     border-radius: 4px;
+    color: inherit;
+    background: transparent;
+}
+
+.input:focus {
+    outline: none;
+    border-color: #646cff;
+}
+
+.input--error {
+    border-color: #ef4444;
+}
+
+.input--error:focus {
+    border-color: #ef4444;
 }
 
 .input--disabled {
@@ -118,6 +133,12 @@
 
 .input-radio-group-wrapper {
     margin-bottom: 1rem;
+    border: none;
+    padding: 0;
+}
+
+.input-radio-group-wrapper .input-label {
+    padding: 0;
 }
 
 .input-radio-options {

@@ -19,7 +19,7 @@ export const Input = ({
 }: InputTypes.InputProps) => {
   const inputClasses = `input input--${variant} input--radius-${radius} input--size-${textSize} ${
     disabled ? "input--disabled" : ""
-  } ${icon ? "input--with-icon" : ""}`;
+  } ${icon ? "input--with-icon" : ""} ${error ? "input--error" : ""}`;
 
   return type === "checkbox" ? (
     <div className="input-checkbox-wrapper">
