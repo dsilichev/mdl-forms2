@@ -12,12 +12,10 @@ export const Properties = ({
   setFormProperties: React.Dispatch<React.SetStateAction<FormProps>>;
   currentInputName: keyof FormProps;
 }) => {
-  console.log(formProperties[currentInputName]);
   const formRef = useRef<HTMLFormElement>(null);
 
 
   const handleChange = (e: React.ChangeEvent<HTMLFormElement>) => {
-    console.log(e.target.type);
     setFormProperties((prev) => ({
       ...prev,
       [currentInputName]: {
@@ -29,7 +27,6 @@ export const Properties = ({
 
   //reset form after change of currentInpuName
   useEffect(() => {
-    console.log('effect', currentInputName)
     formRef.current?.reset();
   }, [currentInputName]);
 

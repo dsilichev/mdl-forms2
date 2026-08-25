@@ -29,6 +29,27 @@ const FIELDS = [
   { name: "confirmPassword", type: "password" },
 ];
 
+const initialFormProperties: FormProps = FIELDS.reduce(
+  (acc, field) => ({
+    ...acc,
+    [field.name]: {
+      name: field.name,
+      placeholder: `Your ${field.name}`,
+      label: `${field.name[0].toUpperCase() + field.name.slice(1)}`,
+      description: "",
+      error: "",
+      variant: "default",
+      radius: "sm",
+      textSize: "md",
+      disabled: false,
+      withAsterisk: false,
+      type: field.type,
+      options: field.options || null,
+    },
+  }),
+  {} as FormProps,
+);
+
 export const Signup = ({ onSubmit }: SignupProps) => {
   const formData = useRef({
     name: "",
@@ -38,28 +59,6 @@ export const Signup = ({ onSubmit }: SignupProps) => {
     password: "",
     confirmPassword: "",
   });
-
-  // fill formProperties
-  let initialFormProperties: FormProps = {};
-  for (const field of FIELDS) {
-    initialFormProperties = {
-      ...initialFormProperties,
-      [field.name]: {
-        name: field.name,
-        placeholder: `Your ${field.name}`,
-        label: `${field.name[0].toUpperCase() + field.name.slice(1)}`,
-        description: "",
-        error: "",
-        variant: "default",
-        radius: "sm",
-        textSize: "md",
-        disabled: false,
-        withAsterisk: false,
-        type: field.type,
-        options: field.options || null,
-      },
-    };
-  }
 
   const [formProperties, setFormProperties] = useState<FormProps>({
     default: {
@@ -75,26 +74,18 @@ export const Signup = ({ onSubmit }: SignupProps) => {
     },
     ...initialFormProperties,
   });
-  console.log("Form properties:", formProperties);
 
   const [currentInputName, setCurrentInputName] =
     useState<keyof FormProps>("default");
 
-  const handleBlur = (_e: React.FocusEvent<HTMLFormElement>) => {
-    // Logic for blur can be added here if needed
-  };
-
   const handleFocus = (e: React.FocusEvent<HTMLFormElement>) => {
     const { name } = e.target;
     setCurrentInputName(name);
-    console.log("Input focused:", e.target);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLFormElement>) => {
     const { name, value } = e.target;
     formData.current = { ...formData.current, [name]: value };
-    //setFormData((prev) => ({ ...prev, [name]: value }));
-    console.log("Input changed:", name, value);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -110,7 +101,6 @@ export const Signup = ({ onSubmit }: SignupProps) => {
           onSubmit={handleSubmit}
           onChange={handleChange}
           onFocus={handleFocus}
-          onBlur={handleBlur}
         >
           {FIELDS.map((field) => {
             const props = formProperties[field.name];
